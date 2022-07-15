@@ -1,0 +1,517 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Produção</title>
+
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+
+            font-family: sans-serif;
+
+            background-color: rgb(2, 12, 20);
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .screen {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+
+            border-radius: 4px;
+
+            min-height: 99vh;
+            width: 99%;
+
+            margin-top: 5px;
+        }
+
+        header h1 {
+            text-align: center;
+            color: #fff;
+            text-transform: uppercase;
+            font-size: 1.5rem;
+            font-weight: 700;
+            letter-spacing: .6px;
+
+            margin-top: 3.5rem;
+            padding: .3rem 0;
+
+            background-color: rgba(255, 255, 255, 0.1);
+
+            user-select: none;
+        }
+
+        section {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+
+            margin-top: 4rem;
+        }
+
+        .titles {
+            text-align: center;
+            color: #000;
+            text-transform: uppercase;
+            font-size: 1rem;
+            font-weight: 700;
+
+            margin-top: .5rem;
+            padding: .3rem 0;
+
+            background-color: rgba(255, 255, 255, 0.1);
+
+            user-select: none;
+
+        }
+
+        .start-production,
+        .container-values__current-values {
+            width: 60%;
+
+            padding-bottom: 1.5rem;
+
+            color: #000;
+
+            display: none;
+
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+
+            background-color: rgba(255, 255, 255, 0.6);
+        }
+
+        .btn-start {
+            padding: 1rem 3rem;
+            margin-top: 3rem;
+
+            font-size: 1.5rem;
+            text-transform: uppercase;
+            color: #fff;
+
+            cursor: pointer;
+
+            border: none;
+            border-radius: 4px;
+
+            background-color: rgba(255, 255, 255, 0.1);
+
+            transition: 1s;
+        }
+
+        .btn-start:hover {
+            transform: scale(1.20);
+
+            background-color: rgba(255, 255, 255, 0.6);
+
+            color: rgb(1, 1, 43);
+        }
+
+        .start {
+            width: 100%;
+        }
+
+        .calculate-production {
+            width: 39%;
+
+            display: flex;
+            align-items: flex-start;
+            flex-direction: column;
+
+            margin: 2rem 0;
+        }
+
+        .calculate-production__prod-current {
+            display: flex;
+            flex-direction: column;
+
+            margin-top: .7em;
+        }
+
+        .calculate-production__prod-current button {
+            margin-top: .5em;
+
+            font-weight: bolder;
+        }
+
+        input {
+            max-width: 3rem;
+
+            outline: none;
+        }
+
+        .btn-calculate {
+            margin-left: .4rem;
+
+            text-transform: uppercase;
+        }
+
+        table {
+            border: solid 2px rgba(32, 32, 32, 0.6);
+
+            font-size: .9rem;
+            font-weight: 600;
+
+            width: 100%;
+
+            border-collapse: collapse;
+        }
+
+        td {
+            border: solid 2px rgba(32, 32, 32, 0.6);
+
+            padding: 4px 8px;
+        }
+
+        .closes-tr {
+            text-align: center;
+
+            width: 1em;
+        }
+
+        .btn-save-value {
+            margin-top: .8rem;
+            padding: .3rem 0;
+
+            font-size: .8rem;
+            text-transform: uppercase;
+            text-shadow: 2px 2px 30px whitesmoke;
+            font-weight: bold;
+
+            background-color: rgba(32, 32, 32, 0.9);
+
+            border: none;
+
+            cursor: pointer;
+
+            width: 100%;
+
+            visibility: hidden;
+        }
+
+        .btn-save-value:hover {
+            background-color: rgba(32, 32, 32, 0.6);
+        }
+
+        .goal-result {
+            width: 60%;
+
+            color: #fff;
+            font-size: large;
+            font-weight: bolder;
+            letter-spacing: 1px;
+
+            margin-top: 1em;
+            margin-bottom: 3em;
+
+            display: none;
+        }
+
+        .btn-goal-result {
+            text-transform: uppercase;
+            font-size: .8em;
+            font-weight: bolder;
+
+            border: none;
+
+            cursor: pointer;
+
+            padding: .4em .6em;
+
+            transition: .5s;
+        }
+
+        .btn-goal-result:hover {
+            background-color: rgba(255, 255, 255, 0.6);
+        }
+    </style>
+</head>
+
+<body>
+    <div class="screen">
+        <header>
+            <h1>Produtividade de Volumes Reisado</h1>
+        </header>
+
+        <main>
+            <section>
+                <button class="btn-start">Iniciar produção diária</button>
+                <div class="start-production">
+                    <div class="start">
+                        <h2 class="production-hour titles"></h2>
+                    </div>
+                    <div class="calculate-production">
+                        <div class="first-label">
+                            <label for="goal" class="first-label">Meta
+                            </label>
+                            <input type="text" id="goal">
+                        </div>
+                        <div class="calculate-production__prod-current">
+                            <label for="prod-current">Total de volumes
+                                <input type="number" id="prod-current">
+                            </label>
+                            <button class="btn-calculate">Enviar</button>
+                        </div>
+
+                    </div>
+                    <table class="table-prod">
+                        <thead>
+                            <th colspan="4">Produtividade</th>
+                            <tr>
+                                <td colspan="4"></td>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Horário</td>
+                                <td>Total de volumes</td>
+                                <td colspan="2">Diferença anterior</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+            <section class="container-values">
+                <div class="container-values__current-values">
+                    <table class="table-inf">
+                        <tbody>
+                            <tr>
+                                <td>Hora</td>
+                                <td>Total de volumes</td>
+                                <td colspan="2">Meta</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="goal-result">
+                    <p>Produção diária: <span></span></p>
+                    <Button class="btn-goal-result">Reiniciar contagem</Button>
+                </div>
+            </section>
+
+        </main>
+
+        <footer>
+
+        </footer>
+    </div>
+
+    <script>
+        // Limita o tamanho de caracteres dos inputs
+        const input = document.querySelectorAll("input")
+        input.forEach(input => {
+            input.addEventListener("input", () => {
+                if (input.value.length > 4) {
+                    input.value = ""
+                }
+            })
+        })
+
+        // Botão abre a tela para o início da contagem
+        const btnStart = document.querySelector(".btn-start")
+        btnStart.addEventListener("click", () => startProduction())
+
+        const screenStartProduction = document.querySelector(".start-production")
+        const startProduction = () => {
+            const titleProductionHour = document.querySelector(".production-hour")
+
+            btnStart.style.display = "none"
+            screenStartProduction.style.display = "flex"
+
+            const currentTime = new Date().getHours()
+
+            if (currentTime == 23) {
+                titleProductionHour.innerText = `Produção das ${currentTime} até à 00 horas`
+            } else if (currentTime == 00) {
+                titleProductionHour.innerText = `Produção de ${currentTime} até à ${currentTime + 1} hora`
+            } else if (currentTime == 01) {
+                titleProductionHour.innerText = `Produção de ${currentTime} até às ${currentTime + 1} horas`
+            } else {
+                titleProductionHour.innerText = `Produção das ${currentTime} até às ${currentTime + 1} horas`
+            }
+        }
+
+        // Cálculo entre últimos volumes produzidos
+        const calcCurrentProd = () => {
+            let prod = 0
+            if (existLastValue) {
+                prod = iptProdCurrent.value - lastValue
+            }
+            return prod
+        }
+
+        // Cria tr
+        const createTr = (value, currentHour, calcCurrentProd) => {
+            const tr = document.createElement("tr")
+            const td1 = document.createElement("td")
+            const td2 = document.createElement("td")
+            const td3 = document.createElement("td")
+            const td4 = document.createElement("td")
+
+            td1.innerText = currentHour
+            td2.innerText = value
+            td3.innerText = calcCurrentProd
+            td4.innerText = "#"
+            td4.classList.add("closes-tr")
+            tr.appendChild(td1)
+            tr.appendChild(td2)
+            tr.appendChild(td3)
+            tr.appendChild(td4)
+
+            return tr
+        }
+
+        // Último valor para ser subtraído pela produção atual
+        let existLastValue = false
+        let lastValue = 0
+        let allValue = 0
+
+        // Adiciona quantidade na tabela
+        const iptProdCurrent = document.querySelector("#prod-current")
+        const iptGoal = document.querySelector("#goal")
+        const table = document.querySelector(".table-prod")
+        const btnCalculate = document.querySelector(".btn-calculate")
+
+        btnCalculate.addEventListener("click", () => addCurrentProd())
+
+        const addCurrentProd = () => {
+            if (iptProdCurrent.value.length > 0) {
+                if (Number(iptProdCurrent.value) >= Number(lastValue)) {
+                    if (iptGoal.value.length < 1) {
+                        alert("Informe o valor da meta")
+
+                        return
+                    }
+
+                    const time = `${new Date().getHours()}:${new Date().getMinutes()}`
+                    const tr = createTr(iptProdCurrent.value, time, calcCurrentProd())
+                    table.appendChild(tr)
+
+                    existLastValue = true
+                    lastValue = Number(iptProdCurrent.value)
+                    allValue += Number(iptProdCurrent.value)
+
+                    iptProdCurrent.value = ""
+                    iptProdCurrent.focus()
+
+                    document.querySelector(".btn-save-value").style.visibility = "visible"
+
+                } else {
+                    alert("Digite um valor correto")
+                }
+            }
+        }
+
+        // Botão para guardar os valores
+        const saveValues = () => {
+            const btnSaveValue = document.createElement("button")
+            btnSaveValue.innerText = "Salvar produção atual"
+            btnSaveValue.classList.add("btn-save-value")
+
+            return btnSaveValue
+
+        }
+        screenStartProduction.appendChild(saveValues())
+
+        // Insere informações da produção da hora atual
+        const saveValueCurrentHour = () => {
+            if (existLastValue) {
+                document.querySelector(".container-values__current-values").style.display = "flex"
+
+                const tableValues = document.querySelector(".container-values__current-values>table")
+
+                // Verifica se a meta foi atingida através do valor atual 
+                // comparado com a meta informada no primeiro input
+                let goalAchieved = ""
+                if (lastValue >= Number(iptGoal.value)) {
+                    goalAchieved = "sim"
+                } else {
+                    goalAchieved = "não"
+                }
+                const trProdHour = createTr(lastValue, new Date().getHours(), goalAchieved)
+
+                tableValues.appendChild(trProdHour)
+
+                // Verifica se a meta foi atingida e pinta a tr de acordo com o resultado
+                const trGoalAchieved = tableValues.querySelectorAll("td")
+                trGoalAchieved.forEach(td => {
+                    if (td.innerText == "sim") {
+                        td.parentNode.style.backgroundColor = "rgba(0,255,127, .6)"
+                    } else if (td.innerText == "não") td.parentNode.style.backgroundColor = "rgba(178,34,34, .9)"
+                })
+
+                deleteTr(".table-prod>tr")
+
+                iptProdCurrent.value = ""
+
+                dayGoal.push(lastValue)
+
+                completeGoal()
+
+                allValue = 0
+                lastValue = 0
+                existLastValue = false
+            }
+        }
+        const btnSaveValues = document.querySelector(".btn-save-value")
+        btnSaveValues.addEventListener("click", saveValueCurrentHour)
+
+        // Meta completa do dia
+        let dayGoal = []
+        const spanResult = document.querySelector(".goal-result>p>span")
+        const divGoalComplete = document.querySelector(".goal-result")
+
+        const completeGoal = () => {
+            let goalComplete = 0
+            divGoalComplete.style.display = "block"
+
+            for (let i = 0; i < dayGoal.length; i++) {
+                goalComplete += Number(dayGoal[i])
+            }
+
+            spanResult.innerText = goalComplete
+
+            return spanResult
+        }
+
+        // Reiniciar contagem
+        const btnGoalResult = document.querySelector(".btn-goal-result")
+        btnGoalResult.addEventListener("click", () => {
+            deleteTr(".table-inf>tr")
+
+            lastValue = 0
+            dayGoal = []
+            goalComplete = 0
+
+            iptGoal.value = ""
+            iptGoal.focus()
+
+            spanResult.innerText = ""
+            divGoalComplete.style.display = "none"
+
+
+            document.querySelector(".container-values__current-values").style.display = "none"
+        })
+
+        // Apaga tr
+        const deleteTr = (trTarget) => {
+            const trs = document.querySelectorAll(trTarget)
+            trs.forEach(tr => {
+                tr.remove()
+            })
+        }
+    </script>
+</body>
+
+</html>
